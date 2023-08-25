@@ -18,8 +18,8 @@ iproto:
 sharding:
   bucket_count: 10000
 
-app:
-  module: scripts
+log:
+  to: file
 
 groups:
   routers:
@@ -48,3 +48,14 @@ groups:
             iproto:
               listen:
                 127.0.0.1:3302
+      storages-011:
+        leader: storage-011
+        instances:
+          storage-011:
+            iproto:
+              listen:
+                127.0.0.1:3311
+          storage-012:
+            iproto:
+              listen:
+                127.0.0.1:3312
