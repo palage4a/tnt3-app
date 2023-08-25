@@ -1,24 +1,26 @@
 # tnt3-hello-app
-## setup
-### install vshard
+## Description
+App based on tarantool 3.0.0-alpha2. Supports replication and sharding options.
+## Setup
+### Install vshard
 ```sh
 tt rocks install vshard
 ```
 
-### start instances
+### Start instances
 ```sh
 tarantool -c config.yml -n router-001
 tarantool -c config.yml -n storage-001
-tarantool -c config.yml -n storage-001
+tarantool -c config.yml -n storage-002
 ```
 
-### init storages
-#### setup leader
+### Initialize storages
+#### Setup leader
 ```sh
 tt connect client:secret@127.0.0.1:3301
 ```
 
-run lua
+Run lua
 ```sh
     box.schema.space.create("test", {if_not_exists = true})
     box.space.test:format({
@@ -44,12 +46,12 @@ run lua
     end
 ```
 
-#### setup replica
+#### Setup replica
 ```sh
 tt connect client:secret@127.0.0.1:3302
 ```
 
-run this lua code
+Run this lua code
 ```sh
     function get(id)
         return box.space.test:get({id})
@@ -62,18 +64,18 @@ run this lua code
     end
 ```
 
-### bootstrap router
+### Bootstrap router
 ```sh
 tt connect client:secret@127.0.0.1:3300
 ```
 
-run this lua code
+Run this lua code
 ```sh
 vshard = require('vshard')
 vshard.router.bootstrap()
 ```
 
-## example
+## Example
 
 ```s
 $ tt connect client:secret@127.0.0.1:3300
